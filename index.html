@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recanto Gastrobar – O seu refúgio gastronômico em Vitória</title>
+<meta name="description" content="Recanto Gastrobar em Vitória-ES. Boa comida, drinks incríveis e um ambiente acolhedor que faz você se sentir em casa. Praia do Suá, Vitória-ES.">
+<meta name="keywords" content="gastrobar vitória, bar vitória es, recanto gastrobar, praia do suá, drinks vitória, petiscos vitória">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #1a3a2a;
+    --verde-medio: #2d5a3d;
+    --verde-claro: #3d7a52;
+    --dourado: #c9a84c;
+    --dourado-claro: #e8c97a;
+    --creme: #f5f0e8;
+    --preto: #0d0d0d;
+    --madeira: #8b5e3c;
+    --texto: #e8e0d0;
+    --texto-escuro: #1a1a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--preto);
+    color: var(--texto);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 1.2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.4s, backdrop-filter 0.4s, padding 0.3s;
+  }
+  nav.scrolled {
+    background: rgba(13,13,13,0.92);
+    backdrop-filter: blur(12px);
+    padding: 0.8rem 3rem;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dourado);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--texto);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--dourado); }
+  .nav-cta {
+    background: var(--dourado);
+    color: var(--preto) !important;
+    padding: 0.5rem 1.2rem;
+    border-radius: 2px;
+    font-weight: 600 !important;
+  }
+  .nav-cta:hover { background: var(--dourado-claro) !important; color: var(--preto) !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--dourado); transition: 0.3s; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(135deg, rgba(13,13,13,0.85) 0%, rgba(26,58,42,0.6) 50%, rgba(13,13,13,0.9) 100%),
+      url('https://images.unsplash.com/photo-1514190051997-0f6f39ca5cde?w=1600&q=80') center/cover no-repeat;
+    animation: heroZoom 20s ease-in-out infinite alternate;
+  }
+  @keyframes heroZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center bottom, rgba(201,168,76,0.08) 0%, transparent 70%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 0 2rem;
+    max-width: 860px;
+  }
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--dourado);
+    color: var(--dourado);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 0.4rem 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+  .hero-logo-img {
+    width: 220px;
+    margin: 0 auto 1.5rem;
+    display: block;
+    filter: brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(10deg);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--dourado);
+    display: block;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: rgba(232,224,208,0.8);
+    max-width: 560px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.1s forwards;
+  }
+  .btn-primary {
+    background: var(--dourado);
+    color: var(--preto);
+    padding: 0.9rem 2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none; cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 2px;
+  }
+  .btn-primary:hover { background: var(--dourado-claro); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+  .btn-outline {
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff;
+    padding: 0.9rem 2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-radius: 2px;
+  }
+  .btn-outline:hover { border-color: var(--dourado); color: var(--dourado); transform: translateY(-2px); }
+  .hero-scroll {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: rgba(255,255,255,0.4); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  .hero-scroll::after {
+    content: '';
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(201,168,76,0.6), transparent);
+  }
+  @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 0; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--dourado);
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--dourado);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── SOBRE ── */
+  #sobre { background: var(--verde); }
+  .sobre-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .sobre-img-wrap {
+    position: relative;
+  }
+  .sobre-img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    border-radius: 4px;
+    filter: brightness(0.9) saturate(1.1);
+  }
+  .sobre-img-placeholder {
+    width: 100%;
+    height: 520px;
+    background: linear-gradient(135deg, var(--verde-medio), var(--verde-claro));
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; color: rgba(201,168,76,0.3);
+  }
+  .sobre-img-badge {
+    position: absolute;
+    bottom: -1.5rem; right: -1.5rem;
+    background: var(--dourado);
+    color: var(--preto);
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .sobre-img-badge .num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; display: block; line-height: 1; }
+  .sobre-img-badge .label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; }
+  .sobre-text p {
+    color: rgba(232,224,208,0.75);
+    font-size: 1.05rem;
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+  .sobre-details {
+    display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;
+  }
+  .sobre-detail {
+    display: flex; align-items: center; gap: 0.6rem;
+    color: var(--dourado);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  /* ── DIFERENCIAIS ── */
+  #diferenciais { background: var(--preto); }
+  .diferenciais-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .diferencial-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border-radius: 4px;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .diferencial-card:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--dourado);
+    transform: translateY(-4px);
+  }
+  .diferencial-card .icon { font-size: 2.2rem; margin-bottom: 1rem; display: block; }
+  .diferencial-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    color: #fff;
+    margin-bottom: 0.4rem;
+  }
+  .diferencial-card p { font-size: 0.78rem; color: rgba(232,224,208,0.5); line-height: 1.5; }
+
+  /* ── CARDÁPIO ── */
+  #cardapio { background: #111; }
+  .cardapio-intro { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+  .cardapio-intro p { color: rgba(232,224,208,0.6); font-size: 1rem; line-height: 1.7; }
+
+  .cardapio-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+  .tab-btn {
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: rgba(232,224,208,0.6);
+    padding: 0.5rem 1.2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    background: var(--dourado);
+    border-color: var(--dourado);
+    color: var(--preto);
+  }
+
+  .cardapio-section { display: none; }
+  .cardapio-section.active { display: block; }
+
+  .cardapio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .menu-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+  .menu-card:hover {
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+  }
+  .menu-card-body { padding: 1.2rem 1.4rem; flex: 1; }
+  .menu-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .menu-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: #fff;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+  .menu-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--dourado);
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .menu-card p {
+    font-size: 0.8rem;
+    color: rgba(232,224,208,0.45);
+    line-height: 1.55;
+  }
+  .menu-tag {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    color: var(--dourado);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    margin-bottom: 0.6rem;
+  }
+
+  /* Roda de Boteco especial */
+  .roda-section {
+    margin-top: 4rem;
+    background: linear-gradient(135deg, rgba(26,58,42,0.5), rgba(45,90,61,0.3));
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 4px;
+    padding: 3rem;
+  }
+  .roda-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--dourado);
+    margin-bottom: 0.5rem;
+  }
+  .roda-sub { font-size: 0.8rem; color: rgba(232,224,208,0.5); margin-bottom: 2rem; letter-spacing: 0.1em; }
+
+  /* ── AVALIAÇÕES ── */
+  #avaliacoes { background: var(--verde); }
+  .rating-hero {
+    display: flex; align-items: center; gap: 3rem;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 2.5rem 3rem;
+    border-radius: 4px;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+  .rating-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--dourado);
+    line-height: 1;
+  }
+  .rating-stars { font-size: 1.8rem; margin-bottom: 0.4rem; }
+  .rating-count { font-size: 0.85rem; color: rgba(232,224,208,0.5); }
+  .rating-bar-wrap { flex: 1; min-width: 200px; }
+  .rating-bar { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.4rem; }
+  .rating-bar span { font-size: 0.75rem; color: rgba(232,224,208,0.5); width: 40px; flex-shrink: 0; }
+  .bar { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+  .bar-fill { height: 100%; background: var(--dourado); border-radius: 2px; }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .review-card {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 1.8rem;
+    border-radius: 4px;
+    transition: 0.3s;
+  }
+  .review-card:hover { border-color: rgba(201,168,76,0.3); }
+  .review-stars { color: var(--dourado); font-size: 0.9rem; margin-bottom: 1rem; }
+  .review-text {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(232,224,208,0.7);
+    margin-bottom: 1.2rem;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+  }
+  .review-author {
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .review-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--verde-medio);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; font-weight: 600; color: var(--dourado);
+    flex-shrink: 0;
+  }
+  .review-name { font-size: 0.85rem; font-weight: 600; color: #fff; }
+  .review-date { font-size: 0.72rem; color: rgba(232,224,208,0.4); }
+
+  /* ── GALERIA ── */
+  #galeria { background: #0a0a0a; }
+  .galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 240px);
+    gap: 0.8rem;
+    margin-top: 3rem;
+  }
+  .galeria-item {
+    overflow: hidden;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+  }
+  .galeria-item:first-child { grid-column: span 2; grid-row: span 2; }
+  .galeria-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+    display: block;
+  }
+  .galeria-item:hover img { transform: scale(1.05); }
+  .galeria-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0);
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.3s;
+  }
+  .galeria-item:hover .galeria-overlay { background: rgba(201,168,76,0.15); }
+
+  /* Placeholder gallery */
+  .gal-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    background: var(--verde-medio);
+    border-radius: 4px;
+  }
+
+  /* ── CONTATO ── */
+  #contato { background: var(--preto); }
+  .contato-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .contato-info { }
+  .contato-item {
+    display: flex; gap: 1.2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .contato-item:last-of-type { border-bottom: none; }
+  .contato-icon {
+    width: 44px; height: 44px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .contato-item h4 { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dourado); margin-bottom: 0.3rem; }
+  .contato-item p { font-size: 0.95rem; color: rgba(232,224,208,0.7); line-height: 1.6; }
+  .contato-btns { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 2rem; }
+  .btn-whatsapp {
+    background: #25d366;
+    color: #fff;
+    padding: 0.9rem 1.5rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    transition: all 0.3s;
+  }
+  .btn-whatsapp:hover { background: #1fb855; transform: translateY(-2px); }
+  .btn-maps {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(232,224,208,0.7);
+    padding: 0.9rem 1.5rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    transition: all 0.3s;
+  }
+  .btn-maps:hover { border-color: var(--dourado); color: var(--dourado); }
+
+  .mapa-container {
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    height: 380px;
+    background: var(--verde);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(232,224,208,0.3);
+  }
+  .mapa-container iframe {
+    width: 100%; height: 100%; border: none; filter: grayscale(0.3) invert(0.9) hue-rotate(180deg) brightness(0.6) contrast(1.2);
+  }
+
+  /* ── CTA FINAL ── */
+  #cta {
+    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-medio) 50%, var(--verde) 100%);
+    text-align: center;
+    padding: 8rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  #cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.12) 0%, transparent 70%);
+  }
+  #cta .section-title { position: relative; z-index: 1; font-size: clamp(2rem, 5vw, 3.5rem); }
+  #cta p { position: relative; z-index: 1; color: rgba(232,224,208,0.7); margin-bottom: 3rem; font-size: 1.05rem; }
+  #cta .hero-btns { position: relative; z-index: 1; }
+  .cta-decorLine {
+    width: 60px; height: 1px;
+    background: var(--dourado);
+    margin: 1.5rem auto;
+    opacity: 0.5;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #050505;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--dourado);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+  .footer-nav {
+    display: flex; justify-content: center; gap: 2rem;
+    list-style: none;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .footer-nav a { color: rgba(232,224,208,0.4); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; }
+  .footer-nav a:hover { color: var(--dourado); }
+  .footer-copy { font-size: 0.75rem; color: rgba(232,224,208,0.2); }
+  .social-links { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; }
+  .social-link {
+    width: 38px; height: 38px;
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(232,224,208,0.5);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+  }
+  .social-link:hover { border-color: var(--dourado); color: var(--dourado); }
+
+  /* ── WHATSAPP FLOAT ── */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    z-index: 999;
+    width: 56px; height: 56px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    text-decoration: none;
+    transition: all 0.3s;
+    animation: pulse 2s infinite;
+  }
+  .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.5); }
+  .whatsapp-float svg { width: 28px; height: 28px; fill: #fff; }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.4); }
+    70% { box-shadow: 0 0 0 12px rgba(37,211,102,0); }
+    100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 1024px) {
+    .diferenciais-grid { grid-template-columns: repeat(3, 1fr); }
+    .reviews-grid { grid-template-columns: 1fr 1fr; }
+    .sobre-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .sobre-img-wrap { display: none; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav.scrolled { padding: 0.7rem 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .nav-links.open {
+      display: flex; flex-direction: column;
+      position: fixed; inset: 0; top: 60px;
+      background: rgba(13,13,13,0.97);
+      align-items: center; justify-content: center;
+      gap: 2rem; z-index: 999;
+    }
+    .nav-links.open a { font-size: 1.2rem; }
+    section { padding: 4rem 0; }
+    .diferenciais-grid { grid-template-columns: repeat(2, 1fr); }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .contato-grid { grid-template-columns: 1fr; }
+    .galeria-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 200px); }
+    .galeria-item:first-child { grid-column: span 2; grid-row: span 1; }
+    .cardapio-grid { grid-template-columns: 1fr; }
+    .rating-hero { flex-direction: column; gap: 1.5rem; text-align: center; }
+  }
+  @media (max-width: 480px) {
+    .diferenciais-grid { grid-template-columns: 1fr 1fr; }
+    .hero-btns { flex-direction: column; align-items: center; }
+    .btn-primary, .btn-outline { width: 100%; max-width: 280px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Recanto</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#cardapio">Cardápio</a></li>
+    <li><a href="#avaliacoes">Avaliações</a></li>
+    <li><a href="#galeria">Galeria</a></li>
+    <li><a href="#contato" class="nav-cta">Fale Conosco</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-badge">✦ Praia do Suá · Vitória, ES ✦</span>
+    <h1 class="hero-title">
+      O seu refúgio
+      <em>gastronômico</em>
+      em Vitória
+    </h1>
+    <p class="hero-sub">Comida deliciosa, drinks incríveis e um ambiente que faz você se sentir em casa</p>
+    <div class="hero-btns">
+      <a href="#cardapio" class="btn-primary">Ver Cardápio</a>
+      <a href="https://maps.google.com/?q=R.+Ulisses+Sarmento,+232+Praia+do+Suá+Vitória+ES" target="_blank" class="btn-outline">Como Chegar</a>
+    </div>
+  </div>
+  <div class="hero-scroll">scroll</div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="container">
+    <div class="sobre-grid">
+      <div class="sobre-img-wrap reveal">
+        <div class="sobre-img-placeholder">🌿</div>
+        <div class="sobre-img-badge">
+          <span class="num">⭐ 4.6</span>
+          <span class="label">759 avaliações</span>
+        </div>
+      </div>
+      <div class="sobre-text">
+        <p class="section-label reveal">Nossa história</p>
+        <h2 class="section-title reveal reveal-delay-1">Um quintal que virou <em style="font-style:italic; color:var(--dourado)">refúgio</em></h2>
+        <p class="reveal reveal-delay-2">O Recanto Gastrobar é o lugar perfeito para quem busca boa comida, drinks bem preparados e um ambiente acolhedor. Com um clima que lembra um quintal de casa, proporcionamos experiências únicas para encontros, comemorações e momentos especiais.</p>
+        <p class="reveal reveal-delay-3">Localizado no coração da Praia do Suá, em Vitória-ES, nosso espaço foi pensado para que cada visita seja uma memória afetiva — com sabores que surpreendem, atendimento que abraça e um ambiente que convida você a ficar mais um pouco.</p>
+        <div class="sobre-details reveal reveal-delay-4">
+          <span class="sobre-detail">📍 Praia do Suá</span>
+          <span class="sobre-detail">⏰ Até meia-noite</span>
+          <span class="sobre-detail">🤝 Reservas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section id="diferenciais">
+  <div class="container">
+    <div style="text-align:center; max-width:600px; margin:0 auto 1rem;">
+      <p class="section-label reveal" style="justify-content:center">Por que o Recanto?</p>
+      <h2 class="section-title reveal reveal-delay-1" style="text-align:center">Uma experiência <em style="color:var(--dourado); font-style:italic">completa</em></h2>
+    </div>
+    <div class="diferenciais-grid">
+      <div class="diferencial-card reveal">
+        <span class="icon">🍽️</span>
+        <h4>Refeição no Local</h4>
+        <p>Ambiente pensado para você desfrutar com calma</p>
+      </div>
+      <div class="diferencial-card reveal reveal-delay-1">
+        <span class="icon">🥡</span>
+        <h4>Para Viagem</h4>
+        <p>Leve nossos petiscos e drinks para qualquer lugar</p>
+      </div>
+      <div class="diferencial-card reveal reveal-delay-2">
+        <span class="icon">🎶</span>
+        <h4>Ambiente Agradável</h4>
+        <p>Música e clima que transformam cada momento</p>
+      </div>
+      <div class="diferencial-card reveal reveal-delay-3">
+        <span class="icon">🤝</span>
+        <h4>Atendimento Especial</h4>
+        <p>Equipe simpática que trata você como família</p>
+      </div>
+      <div class="diferencial-card reveal reveal-delay-4">
+        <span class="icon">🌿</span>
+        <h4>Espaço Aconchegante</h4>
+        <p>Decoração que remete ao melhor quintal de casa</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDÁPIO -->
+<section id="cardapio">
+  <div class="container">
+    <div class="cardapio-intro">
+      <p class="section-label reveal" style="justify-content:center">Gastronomia</p>
+      <h2 class="section-title reveal reveal-delay-1" style="text-align:center">Nosso <em style="color:var(--dourado); font-style:italic">Cardápio</em></h2>
+      <p class="reveal reveal-delay-2">Petiscos irresistíveis, pratos caprichados, drinks autorais e muito mais. Algo para cada paladar e cada momento.</p>
+    </div>
+
+    <div class="cardapio-tabs reveal">
+      <button class="tab-btn active" onclick="showTab('petiscos')">Petiscos</button>
+      <button class="tab-btn" onclick="showTab('grelhados')">Grelhados & Pratos</button>
+      <button class="tab-btn" onclick="showTab('saladas')">Saladas</button>
+      <button class="tab-btn" onclick="showTab('sobremesas')">Sobremesas</button>
+      <button class="tab-btn" onclick="showTab('bebidas')">Bebidas</button>
+      <button class="tab-btn" onclick="showTab('drinks')">Drinks & Coquetéis</button>
+      <button class="tab-btn" onclick="showTab('cervejas')">Cervejas</button>
+    </div>
+
+    <!-- PETISCOS -->
+    <div class="cardapio-section active" id="tab-petiscos">
+      <div class="cardapio-grid">
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">🔥 Popular</span>
+            <div class="menu-card-header">
+              <h4>Coixinhas de Frango com Catupiry</h4>
+              <span class="menu-price">R$ 42,90</span>
+            </div>
+            <p>Acompanha molho de casa.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Croqueta Vegana de Alho Poró, Palmito e Aiipim</h4>
+              <span class="menu-price">R$ 42,00</span>
+            </div>
+            <p>Acompanha molho pesto.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Bolinha de Queijo</h4>
+              <span class="menu-price">R$ 42,50</span>
+            </div>
+            <p>Deliciosas bolinhas crocantes recheadas com queijo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Bolinha de Carne</h4>
+              <span class="menu-price">R$ 48,90</span>
+            </div>
+            <p>34 un. Bolinhas pré-cozidas e recheadas com carne moída e queijo. Acompanha molho apimentado 80g.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Kibbeh</h4>
+              <span class="menu-price">R$ 65,90</span>
+            </div>
+            <p>Pedaço de frango temperado com toque de defumado e queijo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Dadinhos de Tapioca</h4>
+              <span class="menu-price">R$ 46,90</span>
+            </div>
+            <p>Aiko friet na Calabresa. Acompanha molho de pimenta de presinha.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">Especial</span>
+            <div class="menu-card-header">
+              <h4>Fritas de Calabresa com Bacon e Queijo Derretido</h4>
+              <span class="menu-price">R$ 39,90</span>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Pastéis (4 un.)</h4>
+              <span class="menu-price">R$ 32,50</span>
+            </div>
+            <p>Capricho de lomigua (capjata) / Crocante com cheddar.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Camarões YM</h4>
+              <span class="menu-price">R$ 68,90</span>
+            </div>
+            <p>Empanados na Panko.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Torresmo de Rolo</h4>
+              <span class="menu-price">R$ 38,90</span>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Porção de Batata</h4>
+              <span class="menu-price">R$ 66,90</span>
+            </div>
+            <p>Batata frita, muçarela, murros/palitou, farofa, vinagrete e molho de casa.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>12 Espeto Recanto</h4>
+              <span class="menu-price">R$ 66,00</span>
+            </div>
+            <p>12 espetos de 30g cada com: pimentão verde, vermelho, amarelo, cebola e linguiça calabresa. + Pão de Míguon e Pão de Alho ou El Frango.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Carpaccio</h4>
+              <span class="menu-price">R$ 75,90</span>
+            </div>
+            <p>Fatias de carne crua finas, parmesão, rúcula, alcaparras e tomate.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RODA DE BOTECO -->
+      <div class="roda-section reveal">
+        <p class="section-label">Especial da Casa</p>
+        <h3 class="roda-title">🍺 Roda de Boteco!</h3>
+        <p class="roda-sub">CAMPÃOO DA RODA DE BOTECO 2024 — Peça e comemore!</p>
+        <div class="cardapio-grid">
+          <div class="menu-card" style="background:rgba(0,0,0,0.3)">
+            <div class="menu-card-body">
+              <span class="menu-tag">🏆 Campeão</span>
+              <div class="menu-card-header">
+                <h4>Vaca Mimada</h4>
+                <span class="menu-price">R$ 82,90</span>
+              </div>
+              <p>Suculento prato de grande cozida lentamente por 1h ao molho de carne com bojas de babuna, almeça, simula e um curau de cebola caramelizada com catupiry e toque de pimentão. Finalizado com mussarela gratinada e Catupiry.</p>
+            </div>
+          </div>
+          <div class="menu-card" style="background:rgba(0,0,0,0.3)">
+            <div class="menu-card-body">
+              <span class="menu-tag">🏆 Vice-Campeão</span>
+              <div class="menu-card-header">
+                <h4>27 Terramar</h4>
+                <span class="menu-price">R$ 79,90</span>
+              </div>
+              <p>Tilápia empanada sobre puê de batata baroa com molho catupiry tradicional com típico de tomate com camarões e maqueroq. Finalizado com muçarela gratinada e Catupiry. VIN almaluza em Catupiry Finalizado na Panela.</p>
+            </div>
+          </div>
+          <div class="menu-card" style="background:rgba(0,0,0,0.3)">
+            <div class="menu-card-body">
+              <div class="menu-card-header">
+                <h4>O Mistério do Porco</h4>
+                <span class="menu-price">R$ 52,90</span>
+              </div>
+              <p>Costolinha suína dessalada sobre purê de batata, coberta com moquinha de feijão e cebola caramelizada, finalizada com bacon e couve.</p>
+            </div>
+          </div>
+          <div class="menu-card" style="background:rgba(0,0,0,0.3)">
+            <div class="menu-card-body">
+              <div class="menu-card-header">
+                <h4>Escondidinho de Camarão</h4>
+                <span class="menu-price">R$ 69,90</span>
+              </div>
+              <p>Creme de aipin com queijo recheado no crú de camarões, coberto com massa de aipim e gratinado com parmesão. VIN finaliza em Catupiry e Panela.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRELHADOS & PRATOS -->
+    <div class="cardapio-section" id="tab-grelhados">
+      <div class="cardapio-grid">
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">Especial</span>
+            <div class="menu-card-header">
+              <h4>Steak Tartare</h4>
+              <span class="menu-price">R$ 65,90</span>
+            </div>
+            <p>Opção de acompanhamento fatiar frita ou torradas de casa.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Linguiça Artesanal Grelhada com Provolone</h4>
+              <span class="menu-price">R$ 61,90</span>
+            </div>
+            <p>Linguiça artesanal de tido coberta com provolone e acompanhada de pão de alho crocante de casa.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Tiras de Tilápia Empanadas</h4>
+              <span class="menu-price">R$ 77,90</span>
+            </div>
+            <p>Tilápia artesanal batata e molho a médio tamanho.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Alcatra de Sol com Aipin na Manteiga de Garrafa</h4>
+              <span class="menu-price">R$ 65,90</span>
+            </div>
+            <p>Acompanha molho de casa e família.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Tiras de Frango Grelhado ao Molho Catupiry</h4>
+              <span class="menu-price">R$ 79,90</span>
+            </div>
+            <p>Acompanha batata frita, pão de alho e molho.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Cubos de Filé Mignon ao Molho Gorgonzola</h4>
+              <span class="menu-price">R$ 96,90</span>
+            </div>
+            <p>Acompanha batata frita, pão de alho e molho.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Mignon Apogado</h4>
+              <span class="menu-price">R$ 89,90</span>
+            </div>
+            <p>Acompanha batata frita, pão de alho e uma garrafa de vinho tinto Petit Verdot.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Coração Gratinado ao Provolone</h4>
+              <span class="menu-price">R$ 65,90</span>
+            </div>
+            <p>Servido ao molho de alho de provolone gratinado. Acompanha batata frita e torrada.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Camarão Gratinado Catupiry</h4>
+              <span class="menu-price">R$ 79,90</span>
+            </div>
+            <p>Servido ao molho de alcatra. Acompanha catupiry gratinada.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Camarão Gratinado ao Creme de Parmesão</h4>
+              <span class="menu-price">R$ 79,90</span>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Creme de Aipin com Camarão</h4>
+              <span class="menu-price">R$ 79,90</span>
+            </div>
+            <p>Com muçarela e catupiry gratinados e acompanha torrada.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Parmesiana</h4>
+              <span class="menu-price">R$ 129,90</span>
+            </div>
+            <p>500g de carne em três camadas, 7 queijos sortidos, coberta com nosso molho caseiro de tomate com pimenta e recheada com muçarela. Acompanha Catupiry, alho e parmesão.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Tábua Recanto</h4>
+              <span class="menu-price">R$ 159,90</span>
+            </div>
+            <p>500g de carne em três tipos, 7 queijos sortidos, linguiça da casa, farofa de parmesão, pão de alho, vinagrete e molho.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SALADAS -->
+    <div class="cardapio-section" id="tab-saladas">
+      <div class="cardapio-grid" style="max-width:700px; margin:0 auto;">
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Mix de Saladas</h4>
+              <span class="menu-price">—</span>
+            </div>
+            <p>Mix de folhas, tomate-cino cereja, cebola roxa, pepino japonês, croutons e azeite. Escolha nos pratos.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Cubos de Mignon</h4>
+              <span class="menu-price">R$ 66,90</span>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Tiras de Frango</h4>
+              <span class="menu-price">R$ 39,99</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOBREMESAS -->
+    <div class="cardapio-section" id="tab-sobremesas">
+      <div class="cardapio-grid">
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">🍫 Favorita</span>
+            <div class="menu-card-header">
+              <h4>Tentação ao Chocolate</h4>
+              <span class="menu-price">R$ 37,90</span>
+            </div>
+            <p>Ganache de rapote, bolo de chocolate com cobertura de merengue e uma explosão chocolate do bolo de féria. Finalizada por uma bola de sorvete.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Churros</h4>
+              <span class="menu-price">R$ 37,90</span>
+            </div>
+            <p>Artesanal acompanhado de ganache + acompanha de leite condensado de morango.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h4>Brownie com Sorvete</h4>
+              <span class="menu-price">R$ 37,90</span>
+            </div>
+            <p>Brownie de chocolate 25 bola de sorvete de morango ou baunilha no açúcar + calda de chocolate do bolo de cima. Finalizado com doce de leite com calda e coco ralado.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BEBIDAS -->
+    <div class="cardapio-section" id="tab-bebidas">
+      <div class="cardapio-grid">
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">Sem Álcool</span>
+            <div class="menu-card-header"><h4>Água</h4><span class="menu-price">R$ 6,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Refrigerante</h4><span class="menu-price">R$ 8,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Suco Natural 500ml</h4><span class="menu-price">R$ 15,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Suco Natural 1L</h4><span class="menu-price">R$ 17,90</span></div>
+            <p>Especial 2 sabores.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Energético Red Bull</h4><span class="menu-price">R$ 37,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <span class="menu-tag">Soft Drinks</span>
+            <div class="menu-card-header"><h4>Soda Italiana</h4><span class="menu-price">R$ 13,90</span></div>
+            <p>Framboesa, Morango de Menta.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Pink Lemonade</h4><span class="menu-price">R$ 13,00</span></div>
+            <p>Suco de limão, morão de menta e gelo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Fresh Mint</h4><span class="menu-price">R$ 18,90</span></div>
+            <p>Suco de maçã verde, limão, framboesa, água com gás e gelo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">Doses</span>
+            <div class="menu-card-header"><h4>Cachaça Muita</h4><span class="menu-price">R$ 9,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Cachaça Francesa (Saol)</h4><span class="menu-price">R$ 14,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Gin Tanqueray</h4><span class="menu-price">R$ 29,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Red Label</h4><span class="menu-price">R$ 20,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Black Label</h4><span class="menu-price">R$ 32,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Jack Daniels</h4><span class="menu-price">R$ 27,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Campari</h4><span class="menu-price">R$ 28,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <span class="menu-tag">Garrafas</span>
+            <div class="menu-card-header"><h4>José Cuervo 750ml</h4><span class="menu-price">R$ 199,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Leche Loco 750ml</h4><span class="menu-price">R$ 145,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Absolut 1L</h4><span class="menu-price">R$ 205,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Gin Mar 750ml</h4><span class="menu-price">R$ 160,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Gin Tanqueray 750ml</h4><span class="menu-price">R$ 199,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Red Label 1L</h4><span class="menu-price">R$ 180,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Black Label 1L</h4><span class="menu-price">R$ 260,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Chivas Regal 1L</h4><span class="menu-price">R$ 260,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Campari 1L</h4><span class="menu-price">R$ 135,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <span class="menu-tag">Chopp</span>
+            <div class="menu-card-header"><h4>Chopp Blonde</h4><span class="menu-price">—</span></div>
+            <p>Heineken Blonde, mix de dois barris.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DRINKS -->
+    <div class="cardapio-section" id="tab-drinks">
+      <div class="cardapio-grid">
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">🌺 Assinatura</span>
+            <div class="menu-card-header"><h4>Guava</h4><span class="menu-price">R$ 35,90</span></div>
+            <p>Cachaça Branca Nova (goiaba e toque de capim-limão), maracujá, limão fresco, gelo e saúde com cranberry.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Lotus</h4><span class="menu-price">R$ 32,90</span></div>
+            <p>Gin, maror de licor, flor de laranja, mix de cítricos e arenite especiada geleada.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Begônia</h4><span class="menu-price">R$ 32,90</span></div>
+            <p>Gin, aperol, flor de Laranja, astikq natural de beterraba, limão e framboesa. SEM ÁLCOOL: R$ 26,90</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Bromêlia</h4><span class="menu-price">R$ 32,90</span></div>
+            <p>Gin, suco natural de maracujá, purê de bolo, limão, groselha, pimenta e gelo. SEM ÁLCOOL: R$ 26,90</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <span class="menu-tag">✨ Especial</span>
+            <div class="menu-card-header"><h4>Flor do Recanto</h4><span class="menu-price">R$ 36,90</span></div>
+            <p>Gin, licor de cassis, champagne, cítrico natural de framboesa e gelo. SEM ÁLCOOL: R$ 29,90</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Floresta Negra</h4><span class="menu-price">R$ 37,90</span></div>
+            <p>Vodka, suco natural de amora, purê de mix de cítricos, menta, gelo, pimenta e gelo. SEM ÁLCOOL: R$ 29,90</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Túlipa</h4><span class="menu-price">R$ 31,90</span></div>
+            <p>Gin, aperol, purê de morango, mix de cítricos e gelo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Red Passion</h4><span class="menu-price">R$ 33,90</span></div>
+            <p>Vodka, suco natural de maracujá, purê de mix de cítricos e gelo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">Clássicos</span>
+            <div class="menu-card-header"><h4>Moscow Mule</h4><span class="menu-price">R$ 32,90</span></div>
+            <p>Vodka, suco de limão, crange de gengibra, purê de gengibre, limão, cítrico, gelo e espuma de gengibra.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Aperol Spritz</h4><span class="menu-price">R$ 36,90</span></div>
+            <p>Gin, Campari, prosecco, água com gás, rodelas de laranja e gelo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Negroni</h4><span class="menu-price">R$ 32,90</span></div>
+            <p>Gin, Campari, vermute doce, rodelas de laranja.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Fitzgerald</h4><span class="menu-price">R$ 33,90</span></div>
+            <p>Gin, limão siciliano, bitter angostura e açúcar.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Tom Collins</h4><span class="menu-price">R$ 33,90</span></div>
+            <p>Gin, mix de cítricos, crange de lação de limão.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Margarita</h4><span class="menu-price">R$ 31,90</span></div>
+            <p>Tequila, licor de limão, suco de laranja e limão.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Cosmopolitan</h4><span class="menu-price">R$ 29,90</span></div>
+            <p>Tequila, licor de laranja, licor de laranja e cranberry.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <span class="menu-tag">Caipis</span>
+            <div class="menu-card-header"><h4>Caipirinha 51</h4><span class="menu-price">R$ 25,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Caipvodka</h4><span class="menu-price">R$ 27,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Caipirissima Rum</h4><span class="menu-price">R$ 27,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Flammes</h4><span class="menu-price">R$ 33,90</span></div>
+            <p>Vodka, suco de maracujá e groselha. Troca o maracujá por qualquer fruta por apenas R$ 2,00.</p>
+          </div>
+        </div>
+
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">Gin Tônica</span>
+            <div class="menu-card-header"><h4>Gin Tônica</h4><span class="menu-price">R$ 33,90</span></div>
+            <p>Gin, limão, rodela de limão e gelo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Gin Tônica Maracujá</h4><span class="menu-price">R$ 33,90</span></div>
+            <p>Gin, maracujá, manga, maçã, verde e cranberry.</p>
+          </div>
+        </div>
+
+        <!-- Drinks exóticos -->
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">Especial</span>
+            <div class="menu-card-header"><h4>Rosa do Deserto</h4><span class="menu-price">R$ 32,90</span></div>
+            <p>Vodka, xarope natural de gengibre, purê de gengibre, mix de cítricos, gelo e hortelã. SEM ÁLCOOL: R$ 26,90</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Tropical Mule</h4><span class="menu-price">R$ 32,00</span></div>
+            <p>Vodka, xarope natural de baunilha, mix de cítricos, gengibre, gelo e espuma de gengibre. SEM ÁLCOOL: R$ 26,90</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Línio</h4><span class="menu-price">R$ 32,90</span></div>
+            <p>Vodka, mix de pão, mix de cítricos, xarope natural de baunilha e gelo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Pôr-do-Sol</h4><span class="menu-price">R$ 33,90</span></div>
+            <p>Aperol, José Cuervo, Gin Moro de Maracujá, cítrico natural e gelo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Orquídea</h4><span class="menu-price">R$ 31,90</span></div>
+            <p>Cachaça, xarope de cramberry com infusão de mix de cítricos, gelo friturado e hortelã.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Amor de Verão</h4><span class="menu-price">R$ 33,90</span></div>
+            <p>Cachaça, xarope natural de amarena, suco natural de morango, gelo, mix e limão com amarena.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Junquillo</h4><span class="menu-price">R$ 31,90</span></div>
+            <p>Campari, suco natural de abacaxi, mix de cítricos. SEM ÁLCOOL: R$ 27,90</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Honey</h4><span class="menu-price">R$ 34,90</span></div>
+            <p>Whiskey Walker Blonde, mix de cítricos, xarope de gengibre, purê e gelo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Antério</h4><span class="menu-price">R$ 35,90</span></div>
+            <p>Vodka, licor de Blanc Bourbon, suco natural de cramberry, gengibra, gelo, mix cítrico e espuma de gengibre e gelo.</p>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <div class="menu-card-header"><h4>Pepper</h4><span class="menu-price">R$ 36,90</span></div>
+            <p>Vodka, licor de pêssego, suco natural de cramberry rosa, mix de cítricos, xarope simples e gelo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERVEJAS -->
+    <div class="cardapio-section" id="tab-cervejas">
+      <div class="cardapio-grid">
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">600ml</span>
+            <div class="menu-card-header"><h4>Amstel</h4><span class="menu-price">R$ 15,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <span class="menu-tag">600ml</span>
+            <div class="menu-card-header"><h4>Original</h4><span class="menu-price">R$ 17,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <span class="menu-tag">600ml</span>
+            <div class="menu-card-header"><h4>Spaten</h4><span class="menu-price">R$ 18,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">600ml</span>
+            <div class="menu-card-header"><h4>Stella Artois</h4><span class="menu-price">R$ 17,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <span class="menu-tag">600ml</span>
+            <div class="menu-card-header"><h4>Heineken</h4><span class="menu-price">R$ 18,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <span class="menu-tag">600ml</span>
+            <div class="menu-card-header"><h4>Corona</h4><span class="menu-price">R$ 18,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">600ml</span>
+            <div class="menu-card-header"><h4>Colorado Indica</h4><span class="menu-price">R$ 23,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <span class="menu-tag">Long Neck</span>
+            <div class="menu-card-header"><h4>Stella Pure Gold</h4><span class="menu-price">R$ 13,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-2">
+          <div class="menu-card-body">
+            <span class="menu-tag">Long Neck</span>
+            <div class="menu-card-header"><h4>Heineken Zero</h4><span class="menu-price">R$ 10,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-body">
+            <span class="menu-tag">Long Neck</span>
+            <div class="menu-card-header"><h4>Pilsen</h4><span class="menu-price">R$ 12,90</span></div>
+          </div>
+        </div>
+        <div class="menu-card reveal reveal-delay-1">
+          <div class="menu-card-body">
+            <span class="menu-tag">Long Neck</span>
+            <div class="menu-card-header"><h4>IPA</h4><span class="menu-price">— variável</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- AVALIAÇÕES -->
+<section id="avaliacoes">
+  <div class="container">
+    <div style="text-align:center; max-width:600px; margin:0 auto 3rem;">
+      <p class="section-label reveal" style="justify-content:center">Clientes</p>
+      <h2 class="section-title reveal reveal-delay-1" style="text-align:center">O que dizem <em style="color:var(--dourado); font-style:italic">sobre nós</em></h2>
+    </div>
+    <div class="rating-hero reveal">
+      <div>
+        <div class="rating-num">4.6</div>
+        <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+        <div class="rating-count">759 avaliações no Google</div>
+      </div>
+      <div class="rating-bar-wrap">
+        <div class="rating-bar"><span>5 ⭐</span><div class="bar"><div class="bar-fill" style="width:72%"></div></div></div>
+        <div class="rating-bar"><span>4 ⭐</span><div class="bar"><div class="bar-fill" style="width:18%"></div></div></div>
+        <div class="rating-bar"><span>3 ⭐</span><div class="bar"><div class="bar-fill" style="width:6%"></div></div></div>
+        <div class="rating-bar"><span>2 ⭐</span><div class="bar"><div class="bar-fill" style="width:2%"></div></div></div>
+        <div class="rating-bar"><span>1 ⭐</span><div class="bar"><div class="bar-fill" style="width:2%"></div></div></div>
+      </div>
+      <a href="https://maps.google.com/?q=Recanto+Gastrobar+Vitória+ES" target="_blank" class="btn-primary" style="white-space:nowrap">Ver no Google</a>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">"Perfeito! Comida deliciosa e bem feita, drinks gelados e gostosos, atendimento ótimo e simpático. Ambiente acolhedor, com cara de quintal de casa mesmo. Os donos são atenciosos e muito queridos."</p>
+        <div class="review-author">
+          <div class="review-avatar">N</div>
+          <div>
+            <div class="review-name">Nathalia Bragança</div>
+            <div class="review-date">5 meses atrás</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal reveal-delay-1">
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">"Nada menos que incrível nossa experiência aqui. Além da recepção impecável, a comida e os drinks todos são de extrema qualidade. De tudo vale destacar o atendimento, todos muito educados e atenciosos."</p>
+        <div class="review-author">
+          <div class="review-avatar">D</div>
+          <div>
+            <div class="review-name">Diego Alves</div>
+            <div class="review-date">2 meses atrás</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal reveal-delay-2">
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        <p class="review-text">"Que lugar maravilhoso, estou no Espírito Santo e foi minha melhor decisão ir nesse bar. Desde a comida ao atendimento, perfeito demais."</p>
+        <div class="review-author">
+          <div class="review-avatar">Y</div>
+          <div>
+            <div class="review-name">Yasmim Andrade</div>
+            <div class="review-date">2 meses atrás</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIA -->
+<section id="galeria">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:3rem;">
+      <p class="section-label reveal" style="justify-content:center">Galeria</p>
+      <h2 class="section-title reveal reveal-delay-1" style="text-align:center">Momentos do <em style="color:var(--dourado); font-style:italic">Recanto</em></h2>
+    </div>
+    <div class="galeria-grid">
+      <div class="galeria-item reveal">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80" alt="Ambiente Recanto Gastrobar">
+        <div class="galeria-overlay"></div>
+      </div>
+      <div class="galeria-item reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1574894709920-11b28be1a4d8?w=600&q=80" alt="Petiscos">
+        <div class="galeria-overlay"></div>
+      </div>
+      <div class="galeria-item reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80" alt="Drinks">
+        <div class="galeria-overlay"></div>
+      </div>
+      <div class="galeria-item reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80" alt="Pratos">
+        <div class="galeria-overlay"></div>
+      </div>
+      <div class="galeria-item reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=600&q=80" alt="Bar">
+        <div class="galeria-overlay"></div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:2rem;">
+      <a href="https://instagram.com/recantoevitoria" target="_blank" class="btn-outline">
+        📸 Ver mais no Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="container">
+    <div style="max-width:600px; margin-bottom:3rem;">
+      <p class="section-label reveal">Venha nos visitar</p>
+      <h2 class="section-title reveal reveal-delay-1">Encontre o <em style="color:var(--dourado); font-style:italic">Recanto</em></h2>
+    </div>
+    <div class="contato-grid">
+      <div class="contato-info">
+        <div class="contato-item reveal">
+          <div class="contato-icon">📍</div>
+          <div>
+            <h4>Endereço</h4>
+            <p>R. Ulisses Sarmento, 232<br>Praia do Suá – Vitória, ES<br>CEP: 29052-320</p>
+          </div>
+        </div>
+        <div class="contato-item reveal reveal-delay-1">
+          <div class="contato-icon">⏰</div>
+          <div>
+            <h4>Horário</h4>
+            <p>Segunda a Domingo<br>Aberto até 00:00</p>
+          </div>
+        </div>
+        <div class="contato-item reveal reveal-delay-2">
+          <div class="contato-icon">📞</div>
+          <div>
+            <h4>Contato</h4>
+            <p>(27) 99802-9282</p>
+          </div>
+        </div>
+        <div class="contato-btns reveal reveal-delay-3">
+          <a href="https://wa.me/5527998029282" target="_blank" class="btn-whatsapp">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            Falar no WhatsApp
+          </a>
+          <a href="https://maps.google.com/?q=R.+Ulisses+Sarmento,+232+Praia+do+Suá+Vitória+ES" target="_blank" class="btn-maps">
+            🗺️ Abrir no Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="mapa-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3740.1!2d-40.3085!3d-20.3155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjDCsDE4JzU1LjgiUyA0MMKwMTgnMzAuNiJX!5e0!3m2!1spt-BR!2sbr!4v1234567890"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container">
+    <h2 class="section-title reveal">Viva momentos inesquecíveis</h2>
+    <div class="cta-decorLine"></div>
+    <p class="reveal reveal-delay-1">no <strong>Recanto Gastrobar</strong></p>
+    <div class="hero-btns reveal reveal-delay-2">
+      <a href="https://maps.google.com/?q=R.+Ulisses+Sarmento,+232+Praia+do+Suá+Vitória+ES" target="_blank" class="btn-outline">Ver Localização</a>
+      <a href="https://wa.me/5527998029282" target="_blank" class="btn-primary">Falar no WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Recanto</div>
+  <div class="social-links">
+    <a href="https://instagram.com" target="_blank" class="social-link">📸</a>
+    <a href="https://wa.me/5527998029282" target="_blank" class="social-link">💬</a>
+    <a href="https://maps.google.com/?q=Recanto+Gastrobar+Vitória+ES" target="_blank" class="social-link">📍</a>
+  </div>
+  <ul class="footer-nav">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#cardapio">Cardápio</a></li>
+    <li><a href="#avaliacoes">Avaliações</a></li>
+    <li><a href="#galeria">Galeria</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Recanto Gastrobar — R. Ulisses Sarmento, 232 · Praia do Suá · Vitória, ES</p>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/5527998029282" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<script>
+  // NAV
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+  });
+
+  // TABS
+  function showTab(id) {
+    document.querySelectorAll('.cardapio-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // SCROLL REVEAL
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
