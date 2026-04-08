@@ -2280,6 +2280,61 @@
     });
   }
 
+  // Comprime imagem para ~400x300 JPEG ~60KB antes de salvar
+  function compressImage(file, callback) {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        // Proporção 4:3, max 400px largura
+        const MAX_W = 400, MAX_H = 300;
+        let w = img.width, h = img.height;
+        const ratio = Math.min(MAX_W / w, MAX_H / h);
+        if (ratio < 1) { w = Math.round(w * ratio); h = Math.round(h * ratio); }
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        // Começa em quality 0.7, reduz até caber
+        let quality = 0.72;
+        let dataUrl = canvas.toDataURL('image/jpeg', quality);
+        while (dataUrl.length > 80000 && quality > 0.3) {
+          quality -= 0.08;
+          dataUrl = canvas.toDataURL('image/jpeg', quality);
+        }
+        callback(dataUrl);
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function applyImageToCard(cardId, imgWrap, dataUrl) {
+    try {
+      localStorage.setItem(IMG_PREFIX + cardId, dataUrl);
+    } catch(err) {
+      // Storage cheio — limpa as mais antigas e tenta novamente
+      const keys = Object.keys(localStorage).filter(k => k.startsWith(IMG_PREFIX));
+      if (keys.length > 0) {
+        localStorage.removeItem(keys[0]);
+        try { localStorage.setItem(IMG_PREFIX + cardId, dataUrl); } catch(e) {
+          alert('Armazenamento cheio mesmo após limpeza. Trave a edição e me envie o HTML para eu embutir as imagens diretamente.');
+          return;
+        }
+      }
+    }
+    imgWrap.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = dataUrl;
+    imgWrap.appendChild(img);
+    const overlay = document.createElement('div');
+    overlay.className = 'upload-overlay';
+    overlay.innerHTML = '📷 Trocar foto';
+    imgWrap.appendChild(overlay);
+    imgWrap.appendChild(createFileInput(cardId, imgWrap));
+    updateCounter();
+  }
+
   function createFileInput(cardId, imgWrap) {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
@@ -2287,27 +2342,9 @@
     fileInput.addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const dataUrl = ev.target.result;
-        try {
-          localStorage.setItem(IMG_PREFIX + cardId, dataUrl);
-        } catch(err) {
-          alert('Imagem muito grande! Tente comprimir a foto antes de enviar.');
-          return;
-        }
-        imgWrap.innerHTML = '';
-        const img = document.createElement('img');
-        img.src = dataUrl;
-        imgWrap.appendChild(img);
-        const overlay = document.createElement('div');
-        overlay.className = 'upload-overlay';
-        overlay.innerHTML = '📷 Trocar foto';
-        imgWrap.appendChild(overlay);
-        imgWrap.appendChild(createFileInput(cardId, imgWrap));
-        updateCounter();
-      };
-      reader.readAsDataURL(file);
+      compressImage(file, (dataUrl) => {
+        applyImageToCard(cardId, imgWrap, dataUrl);
+      });
     });
     return fileInput;
   }
